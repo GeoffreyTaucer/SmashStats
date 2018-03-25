@@ -44,11 +44,13 @@ def write_data(data):
 
 
 def create_matchup(strict):
+    print("Player 1")
     player_one = get_player(strict)
+    print("Player 2")
     player_two = get_player(strict)
-    if not player_one and not player_two:
-        print("At least one player is needed.")
-        return False
+    if not player_one + player_two:
+        print("You must input at least one player")
+        return
     player_one, player_two = sorted([player_one, player_two])
     player_one_char = get_char(player_one, strict)
     player_two_char = get_char(player_two, strict)
@@ -134,19 +136,64 @@ def check_match():
         print("No record of this matchup in database")
         return
 
-    player_one_wins = 0
-    player_two_wins = 0
+    total_games = 0
     for matchup in matches:
-        player_one_wins += matchup["P 1 wins"]
-        player_two_wins += matchup["P 2 wins"]
+        total_games += matchup["P 1 wins"] + matchup["P 2 wins"]
 
-    total_games = player_one_wins + player_two_wins
+    if this_match["Players"]:
 
-    if this_match["Players"][0]:
-        print(this_match["Players"][0] + "'s win rate is " + str(player_one_wins/total_games))
+        player_one_wins = 0
+        player_two_wins = 0
 
-    if this_match["Players"][1]:
-        print(this_match["Players"][1] + "'s win rate is " + str(player_two_wins/total_games))
+        for matchup in matches:
+            if this_match["Players"][0] == matchup["Players"][0]:
+                player_one_wins += matchup["P 1 wins"]
+
+            elif this_match["Players"][0] == matchup["Players"][1]:
+                player_one_wins += matchup["P 2 wins"]
+
+            if this_match["Players"][1] == matchup["Players"][0]:
+                player_two_wins += matchup["P 1 wins"]
+
+            elif this_match["Players"][1] == matchup["Players"][1]:
+                player_two_wins += matchup["P 2 wins"]
+
+        if this_match["Players"][0] and not this_match["P 1 char"]:
+            print(this_match["Players"][0] + "'s win rate is " + str(player_one_wins/total_games))
+
+        elif this_match["Players"][0] and this_match["P 1 char"]:
+            print(this_match["Players]"][0] + "'s win rate with " + this_match["P 1 char"] + " is " +
+                  str(player_one_wins/total_games))
+
+        if this_match["Players"][1] and not this_match["P 2 char"]:
+            print(this_match["Players"][1] + "'s win rate is " + str(player_two_wins/total_games))
+
+        elif this_match["Players"][1] and this_match["P 2 char"]:
+            print(this_match["Players]"][1] + "'s win rate with " + this_match["P 2 char"] + " is " +
+                  str(player_two_wins / total_games))
+
+    """Need to figure out why this block isn't working, but for now its disabled
+    elif this_match["P 1 char"] or this_match["P 2 char"]:
+        char_one_wins = 0
+        char_two_wins = 0
+        for matchup in matches:
+            if this_match["P 1 char"] == matchup["P 1 char"]:
+                char_one_wins += matchup["P 1 wins"]
+
+            elif this_match["P 1 char"] == matchup["P 2 char"]:
+                char_one_wins += matchup["P 2 wins"]
+
+            if this_match["P 2 char"] == matchup["P 1 char"]:
+                char_two_wins += matchup["P 1 wins"]
+
+            elif this_match["P 2 char"] == matchup["P 2 char"]:
+                char_two_wins += matchup["P 2 wins"]
+
+        if this_match["P 1 char"]:
+            print(this_match["P 1 char"] + "'s win rate is " + str(char_one_wins/total_games))
+
+        if this_match["P 2 char"]:
+            print(this_match["P 2 char"] + "'s win rate is " + str(char_two_wins/total_games))"""
 
 
 def get_player(strict):
@@ -214,7 +261,7 @@ def get_stage(strict):
         try:
             stage = meleeStages[int(stage) - 1]
 
-        except:
+        except TypeError:
             print("Invalid input")
             continue
 
@@ -262,7 +309,7 @@ def select_task():
         try:
             selection = int(input())
 
-        except:
+        except TypeError:
             print("Invalid selection")
             continue
 
@@ -273,7 +320,7 @@ def select_task():
 
 
 def main():
-    print("Welcome to Smash Stats Version 3.1")
+    print("Welcome to Smash Stats Version 3.2")
     print("By Geoffrey Taucer")
     while True:
         task_selection = select_task()
@@ -284,7 +331,7 @@ def main():
             check_match()
 
         elif task_selection == 3:
-            print("Thank you for using Smash Stats V3.1")
+            print("Thank you for using Smash Stats V3.2")
             break
 
         else:
