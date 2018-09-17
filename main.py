@@ -28,8 +28,7 @@ def read_data():
     except OSError:
         print("No data recorded. Creating data file...")
         data = {'Tracked players': [], 'Recorded matchups': []}
-        with open("data.txt", "w") as json_file:
-            json.dump(data, json_file)
+        write_data(data)
 
     return data
 
