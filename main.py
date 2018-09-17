@@ -336,7 +336,8 @@ def main():
             break
 
         else:
-            print("Error: select_task() returned an incorrect value")
+            print("Error: select_task() returned an incorrect value. I'm 99% sure this line should never come up, so if"
+                  "you're seeing this without looking at the source code, it meanss I done goofed")
             break
 
 
