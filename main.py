@@ -171,7 +171,7 @@ def check_match():
             print(this_match["Players]"][1] + "'s win rate with " + this_match["P 2 char"] + " is " +
                   str(player_two_wins / total_games))
 
-    """Need to figure out why this block isn't working, but for now its disabled
+    """This block isn't working, and I'm not sure why. For now it's disabled
     elif this_match["P 1 char"] or this_match["P 2 char"]:
         char_one_wins = 0
         char_two_wins = 0
@@ -209,12 +209,12 @@ def get_player(strict):
             break
 
         elif strict and not player:
-            print("Player tag cannot be blank")
+            print("Player tag required")
             continue
 
         elif strict and player not in data["Tracked players"]:
             new_player = input("Player not recognized. Add new player? ")
-            if new_player.lower() in ["y", "yes"]:
+            if new_player.lower() in ["y", "yes", 1]:
                 data["Tracked players"].append(player)
                 break
 
@@ -276,15 +276,15 @@ def get_stage(strict):
 def char_translate(char):
     if char.lower() in ["dr. mario", "doctor mario"]:
         return "doc"
-    elif char.lower() in ["captain falcon", "c. falcon", "c falcon"]:
+    elif char.lower() in ["captain falcon", "c. falcon", "c falcon", "capt. falcon", "capt falcon"]:
         return "falcon"
     elif char.lower() == "ganondorf":
         return "ganon"
-    elif char.lower() in ["game & watch", "g & w", "g&w"]:
+    elif char.lower() in ["game & watch", "g & w", "g&w", "g and w", "gaw", "g a w"]:
         return "game and watch"
     elif char.lower() == "shiek":
         return "sheik"
-    elif char.lower() in ["jigglypuff", "jiggly puff"]:
+    elif char.lower() in ["jigglypuff", "jiggly puff", "jig", "jigg", "jigs", "jiggs"]:
         return "puff"
     elif char.lower() in ["ice climbers", "ics", "iceclimbers"]:
         return "ic"
@@ -294,6 +294,8 @@ def char_translate(char):
         return "dk"
     elif char.lower() == "marf":
         return "marth"
+    elif char.lower() == "stupid overpowered piece of shit":
+        return "fox"
     else:
         return char.lower()
 
@@ -319,7 +321,7 @@ def select_task():
 
 
 def main():
-    print("Welcome to Smash Stats Version 3.2")
+    print("Welcome to Smash Stats Version 3.3")
     print("By Geoffrey Taucer")
     while True:
         task_selection = select_task()
@@ -330,7 +332,7 @@ def main():
             check_match()
 
         elif task_selection == 3:
-            print("Thank you for using Smash Stats V3.2")
+            print("Thank you for using Smash Stats")
             break
 
         else:
